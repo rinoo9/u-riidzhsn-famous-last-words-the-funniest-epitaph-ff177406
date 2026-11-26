@@ -4,17 +4,17 @@
 
 # Famous Last Words: The Funniest Epitaph
 
-Entry for the [make.fun](https://make.fun/bounty/u-riidzhsn-famous-last-words-the-funniest-epitaph-ff177406) bounty "Famous Last Words: The Funniest Epitaph" — write the funniest possible famous last words as a single tombstone epitaph of 150 characters or fewer.
+Entry for the [make.fun](https://make.fun/bounty/u-riidzhsn-famous-last-words-the-funniest-epitaph-ff177406) bounty "Famous Last Words: The Funniest Epitaph" — the funniest famous last words, as a single tombstone epitaph of 150 characters or fewer.
 
-## The line
+## The epitaph
 
-> I died as I lived: mid-sentence, and—
+> I told you I was sick. Now it's carved in stone, so believe me.
 
-(36 characters — one line, under the 150-character limit. The epitaph itself is cut off mid-sentence, exactly like the life it sums up.)
+That is 63 characters on one line, well under the 150-character limit. He spent his whole life warning everyone he was sick, nobody believed him, and now the proof is carved in stone — the last word, literally.
 
 ## How it works
 
-`main.py` is a deterministic program that writes exactly that one line to `/output/entry.txt`. No randomness, no network, no input — the same line every run.
+`main.py` writes exactly that line to `/output/entry.txt`. It first runs the line through its own gate check (non-blank, one line, at most 150 characters) and refuses to write anything if the line fails, so a bad line fails loudly instead of shipping an invalid entry. No randomness, no network, no input — the same output every run.
 
 Run it:
 
