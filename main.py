@@ -1,28 +1,45 @@
 #!/usr/bin/env python3
-"""Famous Last Words: The Funniest Epitaph — make.fun entry.
+"""Famous Last Words: The Funniest Epitaph.
 
-Writes exactly one funny epitaph (<= 150 characters) to /output/entry.txt.
-Deterministic: the same line every run, no randomness, no network.
-The program checks its own line against the bounty gate (1-150 chars,
-single line) before writing, so a bad line fails loudly instead of
-silently shipping an invalid entry.
+A make.fun bounty entry. The program prints one funny epitaph to
+/output/entry.txt — a single line of at most 150 characters.
+
+The joke: the dead man spent his life telling everyone he was sick,
+nobody believed him, and now the proof is literally set in stone.
+
+Everything is fixed at import time: no input, no randomness, no clock,
+no network. Running the program twice writes byte-identical output.
 """
 
 import os
+import sys
 
-LINE = "I died as I lived: mid-sentence, and—"
-MAX_CHARS = 150
+EPITAPH = "I told you I was sick. Now it's carved in stone, so believe me."
+LIMIT = 150
+TARGET = "/output/entry.txt"
+
+
+def check(line):
+    """Refuse to ship a line the bounty gate would reject."""
+    problems = []
+    if not line.strip():
+        problems.append("line is blank")
+    if len(line) > LIMIT:
+        problems.append(f"line is {len(line)} chars, limit is {LIMIT}")
+    if "\n" in line or "\r" in line:
+        problems.append("line must fit on one line")
+    return problems
 
 
 def main():
-    text = LINE.strip()
-    assert 1 <= len(text) <= MAX_CHARS, (
-        f"epitaph is {len(text)} chars, gate is 1-{MAX_CHARS}"
-    )
-    assert "\n" not in text, "epitaph must be a single line"
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(text + "\n")
+    problems = check(EPITAPH)
+    if problems:
+        for problem in problems:
+            print(f"gate failed: {problem}", file=sys.stderr)
+        raise SystemExit(1)
+    os.makedirs(os.path.dirname(TARGET), exist_ok=True)
+    with open(TARGET, "w", encoding="utf-8", newline="\n") as handle:
+        handle.write(EPITAPH + "\n")
 
 
 if __name__ == "__main__":
